@@ -1,0 +1,11 @@
+alexa:
+    click_through: True
+    visit_interval: 15 # minutes
+    update_interval: 3 # days
+
+google:
+    click_through: True
+    search_interval: 5 # minutes
+
+dns:
+    lookup_interval: 1 # minutes

@@ -1,0 +1,54 @@
+import os, re
+import urllib.parse as url
+import mechanicalsoup
+import needl
+
+
+def generate_wordlist(wordfile=None, min_length=5, max_length=20):
+    words = []
+    regexp = re.compile("^%s{%i,%i}$" % ('.', min_length, max_length))
+    wordfile = os.path.expanduser(wordfile)
+
+    with open(wordfile) as wordlist:
+        for line in wordlist:
+            thisword = line.strip()
+
+            if regexp.match(thisword) is not None:
+                words.append(thisword)
+
+    return words
+
+
+def get_word(words):
+    return needl.rand.choice(needl.rand.choice(words))
+
+
+def get_keywords(num=3, separator=' '):
+    data = os.getcwd() + '/data/'
+    words = [generate_wordlist(data + '/adjectives.txt'),
+             generate_wordlist(data + '/nouns.txt'),
+             generate_wordlist(data + '/verbs.txt')]
+
+    return ' '.join([get_word(words) for _ in range(num)])
+
+
+def get_line(file):
+    with open(file) as f:
+        line = next(f)
+
+        for num, aline in enumerate(f):
+            if needl.rand.randrange(num + 2): continue
+            line = aline
+
+        return line.rstrip()
+
+
+def url_is_absolute(link):
+    return bool(url.urlparse(link).netloc)
+
+
+def get_browser():
+    browser = mechanicalsoup.Browser(soup_config={'features': 'html.parser'})
+    browser.session.headers.update({'User-Agent': get_line(needl.args.datadir + '/user-agents.txt')})
+
+    return browser
