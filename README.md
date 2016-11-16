@@ -16,6 +16,8 @@ Modules in the roadmap (_feel free to get stuck in_):
 - **Spotify**
 - **Facebook Messenger**
 
+**Warning**: the Alexa list contains a lot of porn websites. If this is of concern then don't use Needl until adult content filtering is added.
+
 ## Installation
 
 Needl will work on pretty much any Linux system with Python 3.0+. A simple `sudo apt-get install python3 python3-pip` will take all of your troubles away.

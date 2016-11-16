@@ -1,4 +1,3 @@
-import random
 import needl, needl.utils as utils
 from . import catch_exceptions
 from needl.adapters.fingerprint import FingerprintAdapter
@@ -13,34 +12,25 @@ CSV_NAME = 'top-1m.csv'
 TOP1M = '/alexa-static/' + CSV_NAME + '.zip'
 AWS_THUMBPRINT = '46516b8e1492af030d2c747a5a3137b57423a843'
 
-sites = None
-
 
 def register():
-    global sites
-    sites = needl.args.datadir + '/' + CSV_NAME
     schedule.every(needl.settings['alexa']['update_interval']).days.do(update)
-    schedule.every(needl.settings['alexa']['visit_interval']).minutes.do(visit, needl.settings['alexa']['click_through'])
+    schedule.every(needl.settings['alexa']['visit_interval']).minutes.do(visit)
 
 
 def get_random_site():
-    return 'http://' + utils.get_line(sites).split(',')[1]
+    return 'http://' + utils.get_line(needl.args.datadir + '/' + CSV_NAME).split(',')[1]
 
 
 @catch_exceptions
-def visit(click_through=True):
+def visit():
     site = get_random_site()
-    needl.log.info('Visiting %s', site)
 
+    needl.log.info('Visiting %s', site)
     browser = utils.get_browser()
     page = browser.get(site)
-    links = [link for link in page.soup.findAll('a') if utils.url_is_absolute(link.get('href'))]
 
-    if click_through and len(links) > 0:
-        link = random.choice(links).get('href')
-        needl.log.info('Visiting %s', link)
-        browser.get(link)
-
+    utils.process_click_depth(browser, page, needl.settings['alexa']['click_depth'])
 
 @catch_exceptions
 def update():
@@ -50,4 +40,4 @@ def update():
     file = r.get(url.urljoin(AWS_ROOT, TOP1M))
 
     with zipfile.ZipFile(BytesIO(file.content)) as zip:
-        zip.extractall(sites)
+        zip.extractall(needl.args.datadir)
