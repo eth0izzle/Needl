@@ -4,10 +4,13 @@
 
 Your ISP is most likely tracking your browsing habits and selling them to marketing agencies (albeit anonymised). Or worse, making your browsing history available to law enforcement at the hint of a Subpoena. **Needl** will generate legitimate random Internet traffic in order to conceal your "real" traffic, essentially making your data the **Needl**e in the haystack. The goal is to make it harder for your ISP, government, etc to track your browsing habits.
 
+On 16th November 2016 the UK's IP Bill passed parliament and is set to become law. ISPs will be required to keep a 12-month web history and bulk collection of your data.
+
 Implemented modules:
 
-- **Google**: generates random search strings, searches Google and clicks on a random result.
+- **Google**: generates a random search string, searches Google and clicks on a random result.
 - **Alexa**: visits a website from the Alexa Top 1 Million list.
+- **Twitter**: generates a popular English name and visits their profile; performs random keyword searches
 - **DNS**: produces random DNS queries.
 
 Modules in the roadmap (_feel free to get stuck in_):
@@ -27,7 +30,7 @@ You can then install Needl in 4 simple steps:
 1. `cd /opt`
 2. `git clone https://github.com/eth0izzle/needl.git`
 3. `sudo make install` or `sudo pip3 install -r requirements.txt`
-4. `python3 needl.py --daemonn` _(todo: [write service scripts](https://github.com/eth0izzle/needl/issues/1))_
+4. `python3 needl.py --daemon` _(todo: [write service scripts](https://github.com/eth0izzle/needl/issues/1))_
 
 ## Usage
 

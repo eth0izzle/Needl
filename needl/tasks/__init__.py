@@ -3,7 +3,7 @@ import functools
 import needl
 
 
-# todo: this is ugly, we need to automate finding and registering tasks
+# todo: this is ugly, we need to automate finding and registering tasks.. imp?
 def register_tasks():
     import needl.tasks.alexa as alexa
     alexa.register()
@@ -13,6 +13,9 @@ def register_tasks():
 
     import needl.tasks.dns as dns
     dns.register()
+
+    import needl.tasks.twitter as twitter
+    twitter.register()
 
 
 def start():

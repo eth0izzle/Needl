@@ -2,13 +2,17 @@ sleep_between_requests: '50..100' # integer or random range
 
 alexa:
     click_depth: '2..4' # integer or random range
-    visit_interval: 15 # minutes
+    visit_interval: 10 # minutes
     update_interval: 3 # days
 
 google:
     click_through: True # click a random search result
     click_depth: 1 # integer or random range
     search_interval: 5 # minutes
+
+twitter:
+    get_user_interval: 60 # minutes
+    search_interval: 15 # minutes
 
 dns:
     lookup_interval: 1 # minutes
