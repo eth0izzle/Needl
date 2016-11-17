@@ -4,7 +4,9 @@
 
 Your ISP is most likely tracking your browsing habits and selling them to marketing agencies (albeit anonymised). Or worse, making your browsing history available to law enforcement at the hint of a Subpoena. **Needl** will generate legitimate random Internet traffic in order to conceal your "real" traffic, essentially making your data the **Needl**e in the haystack. The goal is to make it harder for your ISP, government, etc to track your browsing habits.
 
-On 16th November 2016 the UK's IP Bill passed parliament and is set to become law. ISPs will be required to keep a 12-month web history and bulk collection of your data.
+![Demo](https://pbs.twimg.com/media/CxeQsH5XAAAp_vN.jpg:large)
+
+**On 16th November 2016 the UK's IP Bill passed parliament and is set to become law. ISPs will be required to keep a 12-month web history and bulk collection of your data.**
 
 Implemented modules:
 
