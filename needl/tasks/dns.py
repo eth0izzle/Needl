@@ -1,14 +1,13 @@
 import socket
-import schedule
-import needl, needl.utils as utils
-from . import catch_exceptions
+import needl, needl.schedule as schedule, needl.utils as utils
 
 
 def register():
-    schedule.every(needl.settings['dns']['lookup_interval']).minutes.do(lookup)
+    # todo: ugly
+    li = needl.settings['dns']['lookup_interval']
+    schedule.every(li).minutes.do(lookup) if utils.is_int(li) else schedule.every(int(li.split('..')[0])).to(int(li.split('..')[1])).minutes.do(lookup)
 
 
-@catch_exceptions
 def lookup():
     site = utils.get_line(needl.args.datadir + '/top-1m.csv').split(',')[1]
 

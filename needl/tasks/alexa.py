@@ -1,7 +1,5 @@
-import needl, needl.utils as utils
-from . import catch_exceptions
+import needl, needl.schedule as schedule, needl.utils as utils
 from needl.adapters.fingerprint import FingerprintAdapter
-import schedule
 import requests
 import zipfile
 from io import BytesIO
@@ -15,14 +13,15 @@ AWS_THUMBPRINT = '46516b8e1492af030d2c747a5a3137b57423a843'
 
 def register():
     schedule.every(needl.settings['alexa']['update_interval']).days.do(update)
-    schedule.every(needl.settings['alexa']['visit_interval']).minutes.do(visit)
+
+    vi = needl.settings['alexa']['visit_interval']
+    schedule.every(vi).minutes.do(visit) if utils.is_int(vi) else schedule.every(int(vi.split('..')[0])).to(int(vi.split('..')[1])).minutes.do(visit)
 
 
 def get_random_site():
     return 'http://' + utils.get_line(needl.args.datadir + '/' + CSV_NAME).split(',')[1]
 
 
-@catch_exceptions
 def visit():
     site = get_random_site()
 
@@ -32,7 +31,6 @@ def visit():
 
     utils.process_click_depth(browser, page, needl.settings['alexa']['click_depth'])
 
-@catch_exceptions
 def update():
     needl.log.info('Downloading Alexa top one million list (%s)', TOP1M)
     r = requests.session()

@@ -1,15 +1,14 @@
-import needl, needl.utils as utils
-from . import catch_exceptions
-import schedule
+import needl, needl.schedule as schedule, needl.utils as utils
 
 GOOGLE = 'https://www.google.co.uk'
 
 
 def register():
-    schedule.every(needl.settings['google']['search_interval']).minutes.do(search)
+    # todo: ugly as hell
+    se = needl.settings['google']['search_interval']
+    schedule.every(se).minutes.do(search) if utils.is_int(se) else schedule.every(int(se.split('..')[0])).to(int(se.split('..')[1])).minutes.do(search)
 
 
-@catch_exceptions
 def search():
     search_phrase = utils.get_keywords(3)
     needl.log.info('Searching Google for: %s', search_phrase)

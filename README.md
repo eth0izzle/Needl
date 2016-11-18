@@ -25,7 +25,7 @@ Modules in the roadmap (_feel free to get stuck in_):
 
 ## Installation
 
-Needl will work on pretty much any Linux system with Python 3.0+. A simple `sudo apt-get install python3 python3-pip` will take all of your troubles away.
+Needl will work on pretty much any Linux system with Python 3.0+. A simple `sudo apt-get install python3 python3-pip` (replace `apt-get` with your OS' package manager) will take all of your troubles away.
 
 You can then install Needl in 4 simple steps:
 
@@ -36,7 +36,7 @@ You can then install Needl in 4 simple steps:
 
 ## Usage
 
-Needl runs as a daemon and will happily sit in the background chomping away 24/7, 365. Each module (task) has scheduled actions, for example random DNS queries will happen every 60 seconds. You can configure the intervals within `./data/settings.yaml`.
+Needl runs as a daemon and will happily sit in the background chomping away 24/7, 365. Each module (task) has scheduled actions, for example random DNS queries will happen every 1 to 3 minutes. You can configure the intervals within `./data/settings.yaml`.
 
     usage: needl.py [-h] [--datadir DATADIR] [-d] [-v] [--logfile LOGFILE]
                     [--pidfile PIDFILE]

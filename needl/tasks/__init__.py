@@ -1,4 +1,4 @@
-import schedule
+import needl.schedule as schedule
 import functools
 import needl
 
@@ -24,19 +24,3 @@ def start():
 
 def stop():
     schedule.clear()
-
-
-# todo: maybe we can just wrap up the schedule class to include catching exceptions? then we don't need to decorate every task with this!
-def catch_exceptions(job_func, cancel_on_failure=False):
-    @functools.wraps(job_func)
-    def wrapper(*args, **kwargs):
-        try:
-            return job_func(*args, **kwargs)
-        except:
-            import traceback
-            needl.log.error('Task failed: %s', traceback.format_exc())
-
-            if cancel_on_failure:
-                return schedule.CancelJob
-
-    return wrapper
