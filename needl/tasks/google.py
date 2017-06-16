@@ -1,6 +1,6 @@
 import needl, needl.schedule as schedule, needl.utils as utils
 
-GOOGLE = 'https://www.google.co.uk'
+GOOGLE = needl.settings['google']['GOOGLE']
 
 
 def register():
