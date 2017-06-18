@@ -6,7 +6,8 @@ GOOGLE = needl.settings['google']['GOOGLE']
 def register():
     # todo: ugly as hell
     se = needl.settings['google']['search_interval']
-    schedule.every(se).minutes.do(search) if utils.is_int(se) else schedule.every(int(se.split('..')[0])).to(int(se.split('..')[1])).minutes.do(search)
+    args = map(int, se.split('..'))
+    schedule.every(*args).minutes.do(search)
 
 
 def search():

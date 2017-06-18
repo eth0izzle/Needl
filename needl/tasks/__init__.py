@@ -1,21 +1,22 @@
-import needl.schedule as schedule
-import functools
+import glob
+import imp
+import os
 import needl
+import needl.schedule as schedule
 
 
-# todo: this is ugly, we need to automate finding and registering tasks.. imp?
+def _discover_tasks():
+    mydir = os.path.dirname(os.path.realpath(__file__))
+    tasks = list(filter(lambda p: not os.path.basename(p).startswith('_'), glob.glob(os.path.join(mydir, '*.py'))))
+    tasks = [(os.path.basename(os.path.splitext(task)[0]), task) for task in tasks]
+    task_modules = [imp.load_source(task_name, task_path) for task_name, task_path in tasks]
+    return task_modules
+
+
 def register_tasks():
-    import needl.tasks.alexa as alexa
-    alexa.register()
-
-    import needl.tasks.google as google
-    google.register()
-
-    import needl.tasks.dns as dns
-    dns.register()
-
-    import needl.tasks.twitter as twitter
-    twitter.register()
+    for task in _discover_tasks():
+        needl.log.debug('Loading task module {0}'.format(task.__name__))
+        task.register()
 
 
 def start():
