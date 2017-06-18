@@ -15,7 +15,8 @@ def register():
     schedule.every(needl.settings['alexa']['update_interval']).days.do(update)
 
     vi = needl.settings['alexa']['visit_interval']
-    schedule.every(vi).minutes.do(visit) if utils.is_int(vi) else schedule.every(int(vi.split('..')[0])).to(int(vi.split('..')[1])).minutes.do(visit)
+    args = map(int, vi.split('..'))
+    schedule.every(*args).minutes.do(visit)
 
 
 def get_random_site():
