@@ -7,10 +7,13 @@ TWITTER = 'https://www.twitter.com/{0}'
 def register():
     # todo: ugly as hell
     gui = needl.settings['twitter']['get_user_interval']
-    schedule.every(gui).minutes.do(search) if utils.is_int(gui) else schedule.every(int(gui.split('..')[0])).to(int(gui.split('..')[1])).minutes.do(get_user)
+    args = map(int, gui.split('..'))
+    schedule.every(*args).minutes.do(get_user)
 
     se = needl.settings['twitter']['search_interval']
-    schedule.every(se).minutes.do(search) if utils.is_int(se) else schedule.every(int(se.split('..')[0])).to(int(se.split('..')[1])).minutes.do(search)
+    args = map(int, se.split('..'))
+    schedule.every(*args).minutes.do(search)
+
 
 
 def get_user():

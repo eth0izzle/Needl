@@ -5,7 +5,8 @@ import needl, needl.schedule as schedule, needl.utils as utils
 def register():
     # todo: ugly
     li = needl.settings['dns']['lookup_interval']
-    schedule.every(li).minutes.do(lookup) if utils.is_int(li) else schedule.every(int(li.split('..')[0])).to(int(li.split('..')[1])).minutes.do(lookup)
+    args = map(int, li.split('..'))
+    schedule.every(*args).minutes.do(lookup)
 
 
 def lookup():
