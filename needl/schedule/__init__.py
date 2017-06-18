@@ -69,13 +69,13 @@ class Scheduler(object):
         except ValueError:
             pass
 
-    def every(self, interval=1):
+    def every(self, interval=1, latest=None):
         """Schedule a new periodic job.
 
         :param interval: A quantity of a certain time unit
         :return: An empty job
         """
-        job = Job(interval)
+        job = Job(interval, latest)
         self.jobs.append(job)
         return job
 
@@ -116,9 +116,9 @@ class Job(object):
 
     a job is usually created and returned by :meth:`Scheduler.every`
     method, which also defines its `interval`"""
-    def __init__(self, interval):
+    def __init__(self, interval, latest):
         self.interval = interval  # pause interval * unit between runs
-        self.latest = None  # upper limit to the interval
+        self.latest = latest  # upper limit to the interval
         self.job_func = None  # the job job_func to run
         self.unit = None  # time units, e.g. 'minutes', 'hours', ...
         self.at_time = None  # optional time at which this job runs
@@ -404,13 +404,13 @@ default_scheduler = Scheduler()
 jobs = default_scheduler.jobs  # todo: should this be a copy, e.g. jobs()?
 
 
-def every(interval=1):
+def every(interval=1, latest=None):
     """Schedule a new periodic job with the default module schedule.
 
     :param interval: A quantity of any given :meth:`time unit <Job.second>`
     :return: The default :obj:`Scheduler` instance
     """
-    return default_scheduler.every(interval)
+    return default_scheduler.every(interval, latest)
 
 
 def run_pending():
