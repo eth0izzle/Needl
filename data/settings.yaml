@@ -17,3 +17,10 @@ twitter:
 
 dns:
     lookup_interval: '1..3' # # minutes as integer or random range
+
+spotify:
+    search_interval: 4  # minutes
+
+    # for client id and client secret visit https://developer.spotify.com/my-applications
+    client_id:
+    client_secret:

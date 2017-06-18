@@ -17,6 +17,9 @@ def register_tasks():
     import needl.tasks.twitter as twitter
     twitter.register()
 
+    import needl.tasks.spotify as spotify
+    spotify.register()
+
 
 def start():
     schedule.run_pending()
