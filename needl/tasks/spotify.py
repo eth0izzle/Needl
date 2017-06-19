@@ -19,8 +19,9 @@ def register():
         client_credentials_manager = spotipy.oauth2.SpotifyClientCredentials()
         global spotify_client
         spotify_client = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-        search_interval = needl.settings["spotify"]["search_interval"]
-        needl.schedule.every(search_interval).minutes.do(search_artist)
+        search_interval = needl.settings['spotify']['search_interval']
+        args = map(int, search_interval.split('..'))
+        needl.schedule.every(*args).minutes.do(search_artist)
 
 
 def search_artist():

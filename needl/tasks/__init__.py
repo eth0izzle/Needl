@@ -18,9 +18,6 @@ def register_tasks():
         needl.log.debug('Loading task module {0}'.format(task.__name__))
         task.register()
 
-    import needl.tasks.spotify as spotify
-    spotify.register()
-
 
 def start():
     schedule.run_pending()
