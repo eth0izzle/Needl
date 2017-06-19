@@ -2,28 +2,24 @@
 
 **Take back your privacy. Lose yourself in the haystack.**
 
-Your ISP is most likely tracking your browsing habits and selling them to marketing agencies (albeit anonymised). Or worse, making your browsing history available to law enforcement at the hint of a Subpoena. **Needl** will generate legitimate random Internet traffic in order to conceal your "real" traffic, essentially making your data the **Needl**e in the haystack. The goal is to make it harder for your ISP, government, etc to track your browsing habits.
+Your ISP is most likely tracking your browsing habits and selling them to marketing agencies (albeit anonymised). Or worse, making your browsing history available to law enforcement at the hint of a Subpoena. **Needl** will generate random Internet traffic in an attempt to conceal your legitimate traffic, essentially making your data the **Needl**e in the haystack and thus harder to find. The goal is to make it harder for your ISP, government, etc to track your browsing history and habits.
 
 It's not perfect. But it's a start. Have an idea? [Get involved](CONTRIBUTING.md)!
 
 ![Demo](https://pbs.twimg.com/media/CxeQsH5XAAAp_vN.jpg:large)
 
-**On 16th November 2016 the UK's IP Bill passed parliament and is set to become law. ISPs will be required to keep a 12-month web history and bulk collection of your data.**
-
 Implemented modules:
 
 - **Google**: generates a random search string, searches Google and clicks on a random result.
-- **Alexa**: visits a website from the Alexa Top 1 Million list.
+- **Alexa**: visits a website from the Alexa Top 1 Million list. (**warning**: contains a lot of porn websites)
 - **Twitter**: generates a popular English name and visits their profile; performs random keyword searches
-- **DNS**: produces random DNS queries.
+- **DNS**: produces random DNS queries from the Alexa Top 1 Million list.
 
-Modules in the roadmap (_feel free to get stuck in_):
+Module ideas:
 
 - **WhatsApp**
 - **Spotify**
 - **Facebook Messenger**
-
-**Warning**: the Alexa list contains a lot of porn websites. If this is of concern then don't use Needl until adult content filtering is added.
 
 ## Installation
 
@@ -57,12 +53,15 @@ Needl runs as a daemon and will happily sit in the background chomping away 24/7
 ## F.A.Qs
 
 1. **Why not just use a VPN/Tor?**
-And you should! We suggest using **Needl** alongside. Slap it on a Raspberry Pi and let it do it's thing.
+And you should! Needl does not protect your legitimate traffic in any way. It simply generates more.
 
-2. **Can [insert service here] differentiate between Needl and legitimate requests?**
-In theory, yes. [insert service here] can track you with Cookies or Session data. Needl will tackle this in the future.
+2. **By using Needl will my legitimate traffic be hidden/protected/safe?**
+No. This isn't the goal of Needl. It's purpose is to generate more traffic to make it *harder* to identify your legitimate traffic. There's no evidence to suggest this actually works - it's a proof of concept.
 
-3. **Where are your tests?!?**
+3. **Can [insert service here] differentiate between Needl and my legitimate requests?**
+In theory, yes. [insert service here] can track you with Cookies, Session data or *algorithms*. Needl will tackle this in the future.
+
+4. **Where are your tests?!?**
 Submit a pull request. _Please_.
 
 ## Contributing
