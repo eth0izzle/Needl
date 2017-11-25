@@ -17,7 +17,7 @@ def init(_args):
     global settings, args
     args = _args
 
-    with open(args.config) as f:
+    with open(args.datadir + '/settings.yaml', 'r') as f:
         settings = yaml.load(f)
 
     logging.basicConfig(stream=args.logfile,

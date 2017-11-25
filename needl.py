@@ -1,16 +1,11 @@
 import os, sys, time, argparse, logging
 import daemon, daemon.pidfile
 import needl, needl.tasks as scheduler
-import pkg_resources
 
-
-DEFAULT_DATADIR = pkg_resources.resource_filename('needl', 'data')
-DEFAULT_CONFFILE = pkg_resources.resource_filename('needl', 'data/settings.yaml')
 
 def main():
     parser = argparse.ArgumentParser(description=needl.__description__)
-    parser.add_argument('--datadir', default=DEFAULT_DATADIR, help='Data directory')
-    parser.add_argument('--config', default=DEFAULT_CONFFILE, help='Configuration file path')
+    parser.add_argument('--datadir', default=os.getcwd() + '/data', help='Data directory')
     parser.add_argument('-d', '--daemon', action='store_true', help='Run as a deamon')
     parser.add_argument('-v', '--verbose', action='store_true', help='Increase logging')
     parser.add_argument('--logfile', type=argparse.FileType('a'), default=sys.stdout, help='Log to this file. Default is stdout.')
@@ -21,10 +16,7 @@ def main():
         args.logfile = open('/tmp/needl.log', 'a')
 
     needl.init(args)
-    if args.daemon:
-        daemonize(args.logfile, args.pidfile)
-    else:
-        start()
+    daemonize(args.logfile, args.pidfile) if args.daemon else start()
 
 
 def daemonize(logfile, pidfile):
@@ -33,7 +25,7 @@ def daemonize(logfile, pidfile):
     with daemon.DaemonContext(working_directory=os.getcwd(),
                               stderr=logfile,
                               umask=0o002,
-                              pidfile=daemon.pidfile.PIDLockFile(pidfile)):
+                              pidfile=daemon.pidfile.PIDLockFile(pidfile)) as dc:
 
         start()
 
@@ -63,3 +55,7 @@ def stop():
 
     logging.shutdown()
     sys.exit()
+
+
+if __name__ == "__main__":
+    main()
