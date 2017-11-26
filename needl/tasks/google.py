@@ -1,6 +1,6 @@
 import needl, needl.schedule as schedule, needl.utils as utils
 
-GOOGLE = needl.settings['google']['GOOGLE']
+GOOGLE = needl.settings['google']['base_url']
 
 
 def register():
@@ -15,27 +15,24 @@ def search():
     needl.log.info('Searching Google for: %s', search_phrase)
 
     browser = utils.get_browser()
-    page = browser.get(GOOGLE)
-    search_form = page.soup.select('form[name=f]')[0]
-    search_form.select('input[name=q]')[0]['value'] = search_phrase
+    browser.get(GOOGLE)
+    search_form = browser.find_element_by_id('tsf')
+    browser.find_elements_by_css_selector('input[name=q]')[0].send_keys(search_phrase)
+    search_form.submit()
 
-    try:
-        search_form.select('input[name=btnI]')[0]['name'] = '' # hack so mechanicalsoup doesn't request I'm Feeling Lucky results
-    except IndexError:
-        pass
-
-    search_results = browser.submit(search_form, page.url)
-    results_count = search_results.soup.find('div', id='resultStats').text.rstrip()
+    results_count = browser.find_element_by_id('resultStats').text.rstrip()
     needl.log.debug('%s for %s', results_count, search_phrase)
 
     if needl.settings['google']['click_through']:
-        links = [link for link in search_results.soup.select('h3.r > a') if utils.url_is_absolute(link.get('href'))]
+        links = [link for link in browser.find_elements_by_css_selector('h3.r > a') if utils.url_is_absolute(link.get_attribute('href'))]
 
         if len(links) > 0:
-            link = needl.rand.choice(links).get('href')
+            link = needl.rand.choice(links).get_attribute('href')
             needl.log.info('Visiting %s', link)
-            page = browser.get(link)
+            browser.get(link)
 
             click_depth = needl.settings['google']['click_depth']
             if click_depth > 0:
-                utils.process_click_depth(browser, page, click_depth)
+                utils.process_click_depth(browser, click_depth)
+
+    browser.quit()

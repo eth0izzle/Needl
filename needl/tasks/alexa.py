@@ -28,9 +28,9 @@ def visit():
 
     needl.log.info('Visiting %s', site)
     browser = utils.get_browser()
-    page = browser.get(site)
+    browser.get(site)
+    utils.process_click_depth(browser, needl.settings['alexa']['click_depth'])
 
-    utils.process_click_depth(browser, page, needl.settings['alexa']['click_depth'])
 
 def update():
     needl.log.info('Downloading Alexa top one million list (%s)', TOP1M)

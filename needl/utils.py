@@ -1,6 +1,6 @@
 import os, re, time
 import urllib.parse as url
-import mechanicalsoup
+from selenium import webdriver
 import needl
 
 
@@ -48,32 +48,35 @@ def url_is_absolute(link):
 
 
 def get_browser():
-    browser = mechanicalsoup.Browser(soup_config={'features': 'html.parser'})
-    browser.session.headers.update({'User-Agent': get_line(needl.args.datadir + '/user-agents.txt')})
+    chromedriver = os.path.join(needl.args.datadir, 'chromedriver')
+    if not os.path.exists(chromedriver):
+        raise FileNotFoundError("Could not find chromedriver executable at %s. Download it for your platform at https://chromedriver.storage.googleapis.com/index.html?path=2.33/", chromedriver)
 
-    return browser
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('window-size=1024x3000')
+    chrome_options.add_argument("user-agent=" + get_line(os.path.join(needl.args.datadir, 'user-agents.txt')))
+
+    return webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_options)
 
 
-def process_click_depth(browser, page, click_depth=None):
+def process_click_depth(browser, click_depth=None):
     if click_depth:
         i = click_depth if is_int(click_depth) else needl.rand.randrange(int(click_depth.split('..')[0]), int(click_depth.split('..')[1]) + 1)
-        needl.log.debug('Clicking through %s %i times', page.url, i)
+        needl.log.debug('Clicking through %s %i times', browser.current_url, i)
 
         for _ in range(i):
-            if not page.headers.get('Content-Type', 'text/html').startswith('text/html'):
-                continue
-
-            links = page.soup.findAll('a')
+            links = browser.find_elements_by_xpath("//a[@href]")
 
             if len(links) > 0:
-                link = needl.rand.choice(links).get('href')
+                link = needl.rand.choice(links).get_attribute('href')
 
                 if not url_is_absolute(link):
-                    link = url.urljoin(page.url, link)
+                    link = url.urljoin(browser.current_url, link)
 
                 try:
                     needl.log.info('Visiting %s', link)
-                    page = browser.get(link)
+                    browser.get(link)
 
                     if (_ + 1) < i:
                         sleep_time = needl.settings['sleep_between_requests']
@@ -86,7 +89,7 @@ def process_click_depth(browser, page, click_depth=None):
                 except Exception as e:
                     needl.log.debug('Failed to visit %s: %s', link, e)
             else:
-                needl.log.debug('Site %s has no links to follow, skipping', page.url)
+                needl.log.debug('Site %s has no links to follow, skipping', browser.current_url)
                 break
 
 

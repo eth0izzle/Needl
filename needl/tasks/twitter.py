@@ -15,7 +15,6 @@ def register():
     schedule.every(*args).minutes.do(search)
 
 
-
 def get_user():
     first = utils.get_line(needl.args.datadir + '/first-names.txt').title()
     last = utils.get_line(needl.args.datadir + '/last-names.txt').title()
@@ -23,11 +22,12 @@ def get_user():
     needl.log.info('Finding Twitter user: "%s %s"', first, last)
 
     browser = utils.get_browser()
-    page = browser.get(TWITTER.format(first + last))
+    browser.get(TWITTER.format(first + last))
 
-    if page.status_code is not 200:
+    if "Sorry, that page doesn’t exist!" in browser.page_source:
         needl.log.debug('Twitter user "%s %s" not found', first, last)
-        return
+
+    browser.quit()
 
 
 def search():
@@ -36,10 +36,12 @@ def search():
     needl.log.info('Searching Twitter for: "%s"', hashtag)
 
     browser = utils.get_browser()
-    page = browser.get(TWITTER.format('search?f=tweets&vertical=default&q=' + url.quote_plus(hashtag) + '&src=typd'))
+    browser.get(TWITTER.format('search?f=tweets&vertical=default&q=' + url.quote_plus(hashtag) + '&src=typd'))
 
     try:
-        first_tweet_by = page.soup.select('.stream-item > .tweet')[0]['data-screen-name']
+        first_tweet_by = browser.find_elements_by_css_selector('.stream-item > .tweet')[0].get_attribute('data-screen-name')
         needl.log.info('Latest Tweet for %s by %s', hashtag, first_tweet_by)
     except:
         pass
+    finally:
+        browser.quit()

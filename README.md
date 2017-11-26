@@ -14,23 +14,22 @@ Implemented modules:
 - **Alexa**: visits a website from the Alexa Top 1 Million list. (**warning**: contains a lot of porn websites)
 - **Twitter**: generates a popular English name and visits their profile; performs random keyword searches
 - **DNS**: produces random DNS queries from the Alexa Top 1 Million list.
+- **Spotify**: random searches for Spotify artists
 
 Module ideas:
 
 - **WhatsApp**
-- **Spotify**
 - **Facebook Messenger**
 
 ## Installation
 
-Needl will work on pretty much any Linux system with Python 3.0+. A simple `sudo apt-get install python3 python3-pip` (replace `apt-get` with your OS' package manager) will take all of your troubles away.
-
-You can then install Needl in 4 simple steps:
+Needl should work pretty much any Linux system with Python 3.0+ installed.
 
 1. `cd /opt`
 2. `git clone https://github.com/eth0izzle/needl.git`
-3. `sudo make install` or `sudo pip3 install -r requirements.txt`
-4. `python3 needl.py --daemon` _(todo: [write service scripts](https://github.com/eth0izzle/needl/issues/1))_
+3. `pip3 install -r requirements.txt`
+4. Download [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) for your platform (requires Chrome) and place in ./data.
+5. `python3 needl.py`
 
 ## Usage
 
@@ -73,11 +72,6 @@ Check out the [issue tracker](https://github.com/eth0izzle/needl/issues) and see
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
-
-## History
-
-**v0.1**
-First release
 
 ## License
 
