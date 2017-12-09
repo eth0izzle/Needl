@@ -1,0 +1,20 @@
+[Unit]
+Description=Generate legitimate random Internet traffic
+Documentation=https://github.com/eth0izzle/Needl/wiki
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/needl/needl.py  \
+            --datadir /opt/needl/data/          \
+            --logfile /var/log/needl.log        \
+            --verbose
+MemoryDenyWriteExecue=true
+PrivateTmp=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectSystem=full
+RestrictRealtime=true
+Type=simple
+WorkingDirectory=/opt/needl/
+
+[Install]
+WantedBy=default.target
