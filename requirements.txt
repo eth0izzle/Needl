@@ -4,7 +4,7 @@ docutils==0.12
 idna==2.6
 lockfile==0.12.2
 python-daemon==2.1.2
-PyYAML==3.12
+PyYAML==5.4
 requests==2.11.1
 selenium==3.7.0
 six==1.10.0
