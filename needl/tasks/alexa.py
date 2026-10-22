@@ -1,14 +1,11 @@
+import os
 import needl, needl.schedule as schedule, needl.utils as utils
-from needl.adapters.fingerprint import FingerprintAdapter
 import requests
-import zipfile
-from io import BytesIO
-import urllib.parse as url
 
-AWS_ROOT = 'https://s3.amazonaws.com'
+# Alexa was retired in 2022 and its S3 bucket no longer serves the list.
+# The NetAPI Top 1M is a free daily list in the same rank,domain format.
+TOP1M_URL = 'https://netapi.com/netapi_top1mln.csv'
 CSV_NAME = 'top-1m.csv'
-TOP1M = '/alexa-static/' + CSV_NAME + '.zip'
-AWS_THUMBPRINT = '46516b8e1492af030d2c747a5a3137b57423a843'
 
 
 def register():
@@ -33,10 +30,11 @@ def visit():
 
 
 def update():
-    needl.log.info('Downloading Alexa top one million list (%s)', TOP1M)
-    r = requests.session()
-    r.mount(AWS_ROOT, FingerprintAdapter(AWS_THUMBPRINT))
-    file = r.get(url.urljoin(AWS_ROOT, TOP1M))
+    needl.log.info('Downloading top one million list (%s)', TOP1M_URL)
+    file = requests.get(TOP1M_URL, timeout=300)
+    file.raise_for_status()
 
-    with zipfile.ZipFile(BytesIO(file.content)) as zip:
-        zip.extractall(needl.args.datadir)
+    # drop the header line, so every line is rank,domain as before
+    lines = file.text.splitlines()[1:]
+    with open(os.path.join(needl.args.datadir, CSV_NAME), 'w') as f:
+        f.write('\n'.join(lines) + '\n')

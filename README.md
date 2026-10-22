@@ -13,9 +13,9 @@ It's not perfect. But it's a start. Have an idea? [Get involved](CONTRIBUTING.md
 Implemented modules:
 
 - **Google**: generates a random search string, searches Google and clicks on a random result.
-- **Alexa**: visits a website from the Alexa Top 1 Million list. (**warning**: contains a lot of porn websites)
+- **Alexa**: visits a website from a top 1 million list ([NetAPI Top 1M](https://netapi.com/top-1-mln-websites/); the Alexa list was retired). (**warning**: contains a lot of porn websites)
 - **Twitter**: generates a popular English name and visits their profile; performs random keyword searches
-- **DNS**: produces random DNS queries from the Alexa Top 1 Million list.
+- **DNS**: produces random DNS queries from the same top 1 million list.
 - **Spotify**: random searches for Spotify artists
 
 Module ideas:
